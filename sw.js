@@ -1,4 +1,4 @@
-const CACHE = 'fx991ex-v5';
+const CACHE = 'fx991ex-v6';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192-v4.png', './icon-512-v4.png', './apple-touch-icon-v4.png'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('fx991ex-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
