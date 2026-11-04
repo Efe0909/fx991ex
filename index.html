@@ -1516,24 +1516,33 @@ function enterFullscreen(windowId) {
     const mc = MODELS[ws.modelId];
     const aspect = mc.calcWidth / mc.calcHeight;
     // Largest size with the real aspect ratio that fits the whole screen; the rest stays black.
-    function _screenBox() {
-        // iOS home-screen apps lay out a viewport shortened by the status bar yet draw
-        // from the top of the screen, so size against the physical screen there.
+    function _iosStandalone() {
         const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        const standalone = navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
-        if (!ios || !standalone) return [overlay.clientWidth, overlay.clientHeight];
-        const a = Math.min(screen.width, screen.height), b = Math.max(screen.width, screen.height);
-        const box = innerHeight >= innerWidth ? [a, b] : [b, a];
-        overlay.style.setProperty('bottom', 'auto', 'important');
-        overlay.style.setProperty('height', box[1] + 'px', 'important');
-        return box;
+        return ios && (navigator.standalone === true || matchMedia('(display-mode: standalone)').matches);
     }
     function _fitFs() {
-        const [sw, sh] = _screenBox();
         const m = 2;   // keeps the shell's side edge visible against the screen edge
-        const vw = Math.max(1, sw - 2 * m), vh = Math.max(1, sh - 2 * m);
-        let h = vh, w = h * aspect;
-        if (w > vw) { w = vw; h = w / aspect; }
+        function fit(bw, bh) {
+            const vw = Math.max(1, bw - 2 * m), vh = Math.max(1, bh - 2 * m);
+            let h = vh, w = h * aspect;
+            if (w > vw) { w = vw; h = w / aspect; }
+            return [w, h];
+        }
+        let [w, h] = fit(overlay.clientWidth, overlay.clientHeight);
+        winEl.style.marginTop = '';
+        overlay.style.removeProperty('align-items');
+        if (_iosStandalone()) {
+            // iOS home-screen apps draw from the top of the screen but only paint the
+            // layout viewport (shortened by the status bar). Sit where a full-screen fit
+            // would put the top, then shrink until the bottom fits in the painted area.
+            const a = Math.min(screen.width, screen.height), b = Math.max(screen.width, screen.height);
+            const [sw, sh] = innerHeight >= innerWidth ? [a, b] : [b, a];
+            [w, h] = fit(sw, sh);
+            const top = (sh - h) / 2;
+            if (top + h + m > innerHeight) { h = Math.max(1, innerHeight - top - m); w = h * aspect; }
+            overlay.style.setProperty('align-items', 'flex-start', 'important');
+            winEl.style.marginTop = top + 'px';
+        }
         winEl.style.width = w + 'px';
         winEl.style.height = h + 'px';
     }
@@ -1578,8 +1587,8 @@ function exitFullscreen() {
     // Move window back
     prev.parent.appendChild(winEl);
     overlay.classList.remove('active');
-    overlay.style.removeProperty('height');
-    overlay.style.removeProperty('bottom');
+    overlay.style.removeProperty('align-items');
+    winEl.style.marginTop = '';
 
     // Restore position/size
     winEl.style.left = prev.left;
