@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <defs>
     <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#242930"/><stop offset="1" stop-color="#11151a"/></linearGradient>
-    <linearGradient id="key" x1="0" y1="0" x2="0.2" y2="1"><stop stop-color="#285de2"/><stop offset=".50" stop-color="#1c4dc9"/><stop offset="1" stop-color="#173b9e"/></linearGradient>
-    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".18"/><stop offset=".40" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="key" x1="0" y1="0" x2="0.2" y2="1"><stop stop-color="#385fe1"/><stop offset=".55" stop-color="#2c52c9"/><stop offset="1" stop-color="#1d3d9e"/></linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".16"/><stop offset=".48" stop-color="#fff" stop-opacity="0"/></linearGradient>
   </defs>
   <rect width="512" height="512" fill="url(#shell)"/>
-  <rect x="56" y="91" width="400" height="330" rx="52" fill="#080c14" opacity=".75"/>
-  <rect x="62" y="83" width="388" height="323" rx="47" fill="url(#key)" stroke="#0b1d54" stroke-width="7"/>
-  <rect x="71" y="91" width="370" height="306" rx="40" fill="url(#shine)" stroke="#98b8ff" stroke-opacity=".2" stroke-width="2"/>
-  <text x="256" y="318" text-anchor="middle" fill="#f8f8f4" font-family="Liberation Sans, Arial, sans-serif" font-weight="700" font-size="230" letter-spacing="4">fx</text>
+  <path d="M83 125 H340 C405 125 454 171 454 227 V371 Q454 394 431 394 H82 Q58 394 58 370 V150 Q58 125 83 125Z" fill="#060a12" opacity=".8"/>
+  <path d="M84 115 H337 C403 115 452 159 452 219 V362 Q452 385 429 385 H83 Q60 385 60 362 V138 Q60 115 84 115Z" fill="url(#key)" stroke="#0b1d54" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M84 124 H336 C398 124 443 165 443 220 V359 Q443 376 426 376 H86 Q69 376 69 359 V141 Q69 124 84 124Z" fill="url(#shine)" stroke="#adc3ff" stroke-opacity=".2" stroke-width="2"/>
+  <text x="252" y="318" text-anchor="middle" fill="#f8f8f4" font-family="Liberation Sans, Arial, sans-serif" font-weight="700" font-size="205" letter-spacing="4">fx</text>
 </svg>
